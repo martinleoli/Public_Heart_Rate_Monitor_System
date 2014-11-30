@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HeartRateMonitor</string>
+    <string name="hello_round">Public Heart Rate\nMonitor System</string>
+    <string name="hello_square">Public Heart Rate Monitor System</string>
+    <string name="GPSText">GPS Text</string>
+
+</resources>

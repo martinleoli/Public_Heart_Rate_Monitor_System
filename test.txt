@@ -1,0 +1,6 @@
+adb -s localhost:4444 uninstall com.example.bing.heartratemonitor
+
+adb forward tcp:4444 localabstract:/adb-hub
+
+adb connect localhost:4444
+
