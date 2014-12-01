@@ -16,6 +16,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationListener;
 
+import java.io.IOException;
+
 
 public class MainActivity extends Activity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -26,6 +28,12 @@ public class MainActivity extends Activity implements
     private TextView mTextView;
     private TextView mGPS;
 
+    private double longitude = 0;
+    private double latitude = 0;
+    private int hr;
+
+    //private TCPConnection tcp;
+
     private SensorManager sm;
     private Sensor heartrate;
 
@@ -35,12 +43,25 @@ public class MainActivity extends Activity implements
         @Override
         public void onSensorChanged(SensorEvent event){
             Log.d(TAG,"Heart Rate Changed: " + event.values[0]);
+            hr = (int)event.values[0];
             if(mTextView!=null){
                 mTextView.setText(String.valueOf(event.values[0]));
                 mTextView.setText("HR: "+String.valueOf(event.values[0])+" bpm");
                 mTextView.getRootView().setBackgroundColor(HeartRate.getHeartRateColor(event.values[0]));
 
             }
+
+            //TCP
+           /* if(tcp!=null){
+                try {
+                    tcp.send(latitude,longitude,hr);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.d(TAG,"Can not send data");
+                }
+            }*/
+
+
         }
         @Override
         public void onAccuracyChanged(Sensor sensor,int accuracy){}
@@ -64,6 +85,16 @@ public class MainActivity extends Activity implements
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
+
+        //TCP
+       /* try {
+            tcp = new TCPConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d(TAG,"Can not create TCP connection");
+        }*/
+
     }
 
     @Override
@@ -114,6 +145,8 @@ public class MainActivity extends Activity implements
     public void onLocationChanged(Location location) {
         mGPS.setText("Latitude:  " + String.valueOf( location.getLatitude()) +
                 "\nLongitude:  " + String.valueOf( location.getLongitude()));
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
     }
 
 
